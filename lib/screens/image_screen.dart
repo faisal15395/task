@@ -9,6 +9,7 @@ class ImageScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final searchController = TextEditingController();
     return Scaffold(
       appBar: AppBar(
         foregroundColor: Colors.white,
@@ -18,6 +19,22 @@ class ImageScreen extends StatelessWidget {
       ),
       body: Column(
         children: [
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: TextField(
+              controller: searchController,
+              decoration: InputDecoration(
+                labelText: 'Search Images',
+                suffixIcon: IconButton(
+                  icon: const Icon(Icons.search),
+                  onPressed: () {
+                    Provider.of<ImageProviderModel>(context, listen: false)
+                        .searchImages(searchController.text);
+                  },
+                ),
+              ),
+            ),
+          ),
           Expanded(
             child: Consumer<ImageProviderModel>(
               builder: (context, model, child) {

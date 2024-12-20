@@ -55,4 +55,15 @@ class ImageProviderModel extends ChangeNotifier {
     await _db.delete('images', where: 'id = ?', whereArgs: [id]);
     _fetchImages();
   }
+
+  Future<void> searchImages(String query) async {
+    final data = await _db.query(
+      'images',
+      where: 'name LIKE ? OR type LIKE ? OR date LIKE ?',
+      whereArgs: ['%$query%', '%$query%', '%$query%'],
+    );
+    _images.clear();
+    _images.addAll(data);
+    notifyListeners();
+  }
 }
